@@ -42,13 +42,11 @@ end
 
 def get_occupation(data, hometown)
   # code here
-  data.each do |data, cast|
-    cast.each do |person|
-      if person.has_value?(hometown)
-        return person["occupation"]
-      end
-    end
-  end
+  find_person = data
+                .map {|number_season, cast| cast} 
+                .flatten
+                .find{|person| person["hometown"] == hometown }
+  find_person["occupation"]
 end
 
 def get_average_age_for_season(data, season)
@@ -61,10 +59,6 @@ def get_average_age_for_season(data, season)
     age_array << person["age"].to_i
   end
   sum_array = age_array.sum 
-  average_array = sum_array/(age_array.length)
-  if season == 'season 10'
-    final = average_array + 1
-  else 
+  average_array = sum_array.to_f/(age_array.length)
   average_array
-  end
 end
